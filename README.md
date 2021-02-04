@@ -243,3 +243,83 @@ await foo.setBars([]); // Un-associate all previously associated bars
 console.log(await foo.countBars()); // 0
 ```
 
+- 위에건 나중에 또 작성할래요
+
+## Eager Loading
+
+- Eager Loading 이란 이런 N:M 관계에 대한 내용들을 조회할때, 시퀄라이저로 여러 쿼리문을 조합하는게 아니라, 단일 쿼리문으로 쪼지는걸 의미
+- 자동으로 SQL JOIN 구문을 만들어서 조회하는거라고 보면 되겠다 !!
+
+```js
+const getResult = async() => {
+    const result = await User.findOne({
+        where : {id : 9},
+        include: Task
+    });
+    console.log(JSON.stringify(result, null, 2));
+}
+
+getResult();
+```
+
+- 위 같은 코드로 User의 id가 9인 레코드에 어떤 Task들이 할당되었는지 보려고 한다.
+- 이 때 수행되는 SQL 쿼리문은 다음과 같더라
+
+```SQL
+Executing (default): SELECT `User`.`id`, `User`.`name`, `User`.`createdAt`, `User`.`updatedAt`, `Tasks`.`id` AS `Tasks.id`, `Tasks`.`name` AS `Tasks.name`, `Tasks`.`createdAt` AS `Tasks.createdAt`, `Tasks`.`updatedAt` AS `Tasks.updatedAt`, `Tasks->UserTasks`.`createdAt` AS `Tasks.UserTasks.createdAt`, `Tasks->UserTasks`.`updatedAt` AS `Tasks.UserTasks.updatedAt`, `Tasks->UserTasks`.`UserId` AS `Tasks.UserTasks.UserId`, `Tasks->UserTasks`.`TaskId` AS `Tasks.UserTasks.TaskId` FROM `users` AS `User` LEFT OUTER JOIN ( `UserTasks` AS `Tasks->UserTasks` INNER JOIN `tasks` AS `Tasks` ON `Tasks`.`id` = `Tasks->UserTasks`.`TaskId`) ON `User`.`id` = `Tasks->UserTasks`.`UserId` WHERE `User`.`id` = 9;
+```
+- 오우야..
+
+- 콘솔 결과
+
+```console
+{
+  "id": 9,
+  "name": "lee",
+  "createdAt": "2021-02-04T10:21:26.000Z",
+  "updatedAt": "2021-02-04T10:21:26.000Z",
+  "Tasks": [
+    {
+      "id": 4,
+      "name": "task1",
+      "createdAt": "2021-02-04T10:21:26.000Z",
+      "updatedAt": "2021-02-04T10:21:26.000Z",
+      "UserTasks": {
+        "createdAt": "2021-02-04T10:21:26.000Z",
+        "updatedAt": "2021-02-04T10:21:26.000Z",
+        "UserId": 9,
+        "TaskId": 4
+      }
+    },
+    {
+      "id": 5,
+      "name": "task2",
+      "createdAt": "2021-02-04T10:21:26.000Z",
+      "updatedAt": "2021-02-04T10:21:26.000Z",
+      "UserTasks": {
+        "createdAt": "2021-02-04T10:21:26.000Z",
+        "updatedAt": "2021-02-04T10:21:26.000Z",
+        "UserId": 9,
+        "TaskId": 5
+      }
+    },
+    {
+      "id": 6,
+      "name": "task3",
+      "createdAt": "2021-02-04T10:21:26.000Z",
+      "updatedAt": "2021-02-04T10:21:26.000Z",
+      "UserTasks": {
+        "createdAt": "2021-02-04T10:21:26.000Z",
+        "updatedAt": "2021-02-04T10:21:26.000Z",
+        "UserId": 9,
+        "TaskId": 6
+      }
+    }
+  ]
+}
+```
+
+- 실제로 데이터를 저렇게 저장했다
+
+![1](images/1.png)
+

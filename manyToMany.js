@@ -14,7 +14,6 @@ const db = {};
 db.sequelize = sequelize;
 
 
-
 const checkcon = async () => {
     try {
         await sequelize.authenticate();
@@ -76,40 +75,50 @@ const initializeDB = async () => {
 
 initializeDB();
 
-const kim = User.build({
-    name: "kim"
-});
+// const kim = User.build({
+//     name: "kim"
+// });
 
-const makeUser = async(user) => {
-    await user.save();
-    console.log("saved " + user);
-}
+// const makeUser = async(user) => {
+//     await user.save();
+//     console.log("saved " + user);
+// }
 
-makeUser(kim);
+// makeUser(kim);
 
-Task.bulkCreate([
-    { name : "task1" },
-    { name : "task2" },
-    { name : "task3" }
-]).then(() => {
-    console.log('save success');
-})
+// Task.bulkCreate([
+//     { name : "task1" },
+//     { name : "task2" },
+//     { name : "task3" }
+// ]).then(() => {
+//     console.log('save success');
+// })
 
 //add{modelName} method
 
-const testMM = async() => {
-    const lee = await User.create({ name : "lee" });
-    const task1 = await Task.create({name:"task1"});
-    const task2 = await Task.create({name:"task2"});
-    const task3 = await Task.create({name:"task3"});
-    await lee.addTask(task1);
-    await lee.addTask(task2);
-    await lee.addTask(task3);
+// const testMM = async() => {
+//     const lee = await User.create({ name : "lee" });
+//     const task1 = await Task.create({ name: "task1" });
+//     const task2 = await Task.create({ name: "task2" });
+//     const task3 = await Task.create({ name: "task3" });
+//     await lee.addTask(task1);
+//     await lee.addTask(task2);
+//     await lee.addTask(task3);
+//     const result = await User.findOne({
+//         where : {name:"lee"},
+//         include: Task 
+//     });
+//     console.log(result);
+// }
+
+// testMM()
+
+const getResult = async() => {
     const result = await User.findOne({
-        where : {name:"lee"},
-        include: Task 
+        where : {id : 9},
+        include: Task
     });
-    console.log(result);
+    console.log(JSON.stringify(result, null, 2));
 }
 
-testMM();
+getResult();
