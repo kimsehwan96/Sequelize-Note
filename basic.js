@@ -11,8 +11,6 @@ const sequelize = new Sequelize(database, username, password, {
     dialect: dialect
 });
 
-
-
 const checkcon = async () => {
     try {
         await sequelize.authenticate();
@@ -21,7 +19,6 @@ const checkcon = async () => {
         console.log(e);
     }
 }
-
 checkcon();
 
 class User extends Model{

@@ -1,0 +1,24 @@
+{
+  "name": "Sequelize-Note",
+  "version": "1.0.0",
+  "description": "- Node에서 대표적으로 사용하는 ORM 프레임워크",
+  "main": "basic.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kimsehwan96/Sequelize-Note.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kimsehwan96/Sequelize-Note/issues"
+  },
+  "homepage": "https://github.com/kimsehwan96/Sequelize-Note#readme",
+  "dependencies": {
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.5.0"
+  }
+}

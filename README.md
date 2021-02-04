@@ -164,3 +164,82 @@ Task.bulkCreate([
 - 여러 데이터를 대량으로 저장하는 방법입니다. bulkCreate이라는 메서드를 쓰면 되며, 인자로는 객체들의 배열이 들어와야 합니다.
 - 만약 하나의 데이터만 저장할경우 `create` 메서드로 하나의 객체만 던져주면 됩니다. 
 - 위 코드에서는 간단히 확인을 위해 .then()을 활용했습니다.
+
+## assocs
+
+- sequelize는 여러 관계를 표현하기 위한 방법들을 제공합니다.
+
+- `belongsTo` : 1:1 
+- `hasOne` : 1:1
+- `hasMany` : 1:N
+- `belongsToMany` : M:N
+
+- 위 네개가 그러한 것들입니다.
+
+- 위 네개 메서드를 사용하여 관계를 표현하면, 해당 모델에대한 객체는 여러 특별한 메서드들을 얻게 됩니다.
+
+- 우선 `Foo`, `Bar` 두 모델이 있다고 치고 시작합시다.
+
+## Foo.hasOne(Bar)
+
+- fooInstance.getBar()
+- fooInstance.setBar()
+- fooInstance.createBar()
+
+- 이러한 세개의 특별한 메서드/믹스인이 생깁니다.
+
+```js
+const foo = await Foo.create({ name: 'the-foo' });
+const bar1 = await Bar.create({ name: 'some-bar' });
+const bar2 = await Bar.create({ name: 'another-bar' });
+console.log(await foo.getBar()); // null
+await foo.setBar(bar1);
+console.log((await foo.getBar()).name); // 'some-bar'
+await foo.createBar({ name: 'yet-another-bar' });
+const newlyAssociatedBar = await foo.getBar();
+console.log(newlyAssociatedBar.name); // 'yet-another-bar'
+await foo.setBar(null); // Un-associate
+console.log(await foo.getBar()); // null
+```
+
+## Foo.belongsTo(Bar)
+
+- hasOne이랑 동일한 메서드 및 믹스인을 갖습니다.
+
+- fooInstance.getBar()
+- fooInstance.setBar()
+- fooInstance.createBar()
+
+## Foo.hasMany(Bar)
+
+- fooInstance.getBars()
+- fooInstance.countBars()
+- fooInstance.hasBar()
+- fooInstance.hasBars()
+- fooInstance.setBars()
+- fooInstance.addBar()
+- fooInstance.addBars()
+- fooInstance.removeBar()
+- fooInstance.removeBars()
+- fooInstance.createBar()
+
+```js
+const foo = await Foo.create({ name: 'the-foo' });
+const bar1 = await Bar.create({ name: 'some-bar' });
+const bar2 = await Bar.create({ name: 'another-bar' });
+console.log(await foo.getBars()); // []
+console.log(await foo.countBars()); // 0
+console.log(await foo.hasBar(bar1)); // false
+await foo.addBars([bar1, bar2]);
+console.log(await foo.countBars()); // 2
+await foo.addBar(bar1);
+console.log(await foo.countBars()); // 2
+console.log(await foo.hasBar(bar1)); // true
+await foo.removeBar(bar2);
+console.log(await foo.countBars()); // 1
+await foo.createBar({ name: 'yet-another-bar' });
+console.log(await foo.countBars()); // 2
+await foo.setBars([]); // Un-associate all previously associated bars
+console.log(await foo.countBars()); // 0
+```
+
