@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getResult } = require('./manyToMany.js');
+const { getResultByUserId, getWhoHaveTask } = require('./controller.js');
 
 const app = express();
 
@@ -23,11 +23,26 @@ app.get('/user/:id', async (req, res) => {
             message : "You should put path params"
         });
     } else {
-        const result = await getResult(req.params.id);
+        const result = await getResultByUserId(req.params.id);
         res.json({
             success: true,
             message : result
         });
+    }
+})
+
+app.get('/task/:id', async (req, res) => {
+    if (!req.params.id) {
+        res.status(400).json({
+            success: false,
+            message: "You should put path params"
+        });
+    } else {
+            const result = await getWhoHaveTask(req.params.id);
+            res.json({
+                success: true,
+                message : result
+            });
     }
 })
 

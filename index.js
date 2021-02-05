@@ -1,5 +1,5 @@
 const app = require('./app');
-const sequelize = require('./sequelizeIndex');
+const sequelize = require('./sequelizeConf');
 const PORT = 8888;
 
 async function checkConnection() {
