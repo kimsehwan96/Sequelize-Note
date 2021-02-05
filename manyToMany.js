@@ -113,12 +113,16 @@ initializeDB();
 
 // testMM()
 
-const getResult = async() => {
+const getResult = async(id) => {
     const result = await User.findOne({
-        where : {id : 9},
+        where : {id : id},
         include: Task
     });
     console.log(JSON.stringify(result, null, 2));
+    return result;
 }
 
-getResult();
+module.exports = { getResult };
+
+
+
