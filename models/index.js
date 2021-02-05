@@ -26,24 +26,14 @@ fs
     .forEach(file => {
         const model = require(path.join(__dirname, file));
         db[model.name] = model;
-        model.init(sequelize);
+        db[model.name].init(sequelize);
     });
 
 Object.keys(db).forEach(modelName => {
-    if (db[modelName].associate) {
+    if ("associate" in db[modelName]) {
         db[modelName].associate(db);
     }
-});
+})
 
-
-
-
-// const initDB = async(sequelize) => {
-//     await sequelize.sync({force:true});
-// }
-//
-// initDB(sequelize).then((res)=>{
-//     console.log("init db success !" + res);
-// })
 
 module.exports = db;
