@@ -40,6 +40,8 @@ class Task extends Model{
     }
 }
 
+console.log("-------------------------")
+
 Task.init(sequelize);
 
 db.User = User;
