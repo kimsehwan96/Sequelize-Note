@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
     try {
-        const result = await getAllPlants();
+        const result = await getAllPlants(req.query.order);
         res.json({
             success: true,
             message : result

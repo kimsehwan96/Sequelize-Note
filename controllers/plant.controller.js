@@ -2,11 +2,33 @@ const db = require('../models');
 const Plant = db.Plant;
 const Tag = db.Tag;
 
-const getAllPlants = async () => {
-    const result = await Plant.findAll({
-        include: Tag
-    });
-    return result;
+const getAllPlants = async (queryString) => {
+    switch (queryString) {
+        case "recent":
+            return await Plant.findAll({
+                include: Tag,
+                order : [['createdAt', 'DESC']]
+            })
+            break;
+        case "like":
+            return await Plant.findAll({
+                include: Tag,
+                order: [['likes', 'DESC']]
+            })
+            break;
+        case "view":
+            return await Plant.findAll({
+                include: Tag,
+                order: [['views', 'DESC']]
+            })
+        default:
+            return await Plant.findAll({
+                include: Tag,
+                order : [['createdAt', 'DESC']]
+            })
+            break;
+            //default action is same as recently order
+    }
 }
 
 //흠..
