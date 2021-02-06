@@ -19,7 +19,8 @@ module.exports = class Plant extends Model{
             likes: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0
-            }
+            },
+            imagePath: DataTypes.STRING(200),
             // TODO: 좋아요 버튼을 누를 경우 좋아요 + 1
         }, {
             sequelize,

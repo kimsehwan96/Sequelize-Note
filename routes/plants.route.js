@@ -1,10 +1,11 @@
 const express = require('express');
+const { getAllPlants , getPlantById } = require('../controllers/plant.controller');
+
 const router = express.Router();
-const { getAllTasks , getTaskById } = require('../controllers/task.controller');
 
 router.get('/', async (req, res) => {
     try {
-        const result = await getAllTasks();
+        const result = await getAllPlants();
         res.json({
             success: true,
             message : result
@@ -17,9 +18,9 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/:taskId', async (req, res) => {
+router.get('/:plantId', async (req, res) => {
     try {
-        const result = await getTaskById(req.params.taskId);
+        const result = await getPlantById(req.params.plantId);
         res.json({
             success: true,
             message : result

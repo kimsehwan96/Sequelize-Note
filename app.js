@@ -6,6 +6,7 @@ const db = require('./models');
 const indexRouter = require('./routes/index.route');
 const usersRouter = require('./routes/users.route');
 const tasksRouter = require('./routes/tasks.route');
+const plantsRouter = require('./routes/plants.route');
 
 db.sequelize.sync({force: false}).then(() =>{
 console.log("success db init");
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tasks', tasksRouter);
+app.use('/plants', plantsRouter);
 
 
 
