@@ -1,4 +1,4 @@
-# SequelizeConf
+# Sequelize
 
 - Node에서 대표적으로 사용하는 ORM 프레임워크
 
@@ -18,20 +18,20 @@
 1. sequelize 인스턴스를 생성한다. 이 때 인자로 어떤 데이터베이스를 쓰는지와 같은 설정을 넘겨주어야 한다.
 
 ```js
-const { SequelizeConf } = require('sequelize');
+const { Sequelize } = require('sequelize');
 
 // Option 1: Passing a connection URI
-const sequelize = new SequelizeConf('sqlite::memory:') // Example for sqlite
-const sequelize = new SequelizeConf('postgres://user:pass@example.com:5432/dbname') // Example for postgres
+const sequelize = new Sequelize('sqlite::memory:') // Example for sqlite
+const sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname') // Example for postgres
 
 // Option 2: Passing parameters separately (sqlite)
-const sequelize = new SequelizeConf({
+const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: 'path/to/database.sqlite'
 });
 
 // Option 2: Passing parameters separately (other dialects)
-const sequelize = new SequelizeConf('database', 'username', 'password', {
+const sequelize = new Sequelize('database', 'username', 'password', {
   host: 'localhost',
   dialect: /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */
 });
@@ -44,7 +44,7 @@ const sequelize = new SequelizeConf('database', 'username', 'password', {
 - 실제 시퀄라이즈 인스턴스를 만드는 과정
 
 ```js
-const { SequelizeConf, DataTypes, Model } = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 
 const database = 'seq_test'
 const username = 'root'
@@ -52,7 +52,7 @@ const password = null;
 const host = '127.0.0.1'
 const dialect = 'mysql'
 
-const sequelize = new SequelizeConf(database, username, password, {
+const sequelize = new Sequelize(database, username, password, {
     host: host,
     dialect: dialect
 });
